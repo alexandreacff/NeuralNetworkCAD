@@ -1,5 +1,7 @@
 # NeuralNetworkCAD
 
+Implementação de uma Rede Neural em CUDA, OpenMP e serial para comparação do desempenho.
+
 Integrantes:
 
 Alexandre Costa Ferro - 202105832<br>

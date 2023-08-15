@@ -90,6 +90,7 @@ int main(int argc, char** argv){
 			int i = trainingSetOrder[x]; 
 
 			//Calculando a ativação da hidden layer
+			#pragma omp parallel for 
 			for(int j = 0; j < numHiddenNodes; j++){
 				double activation = hiddenLayerBias[j]; 
 				for(int k = 0; k < numInputs; k++){
@@ -99,6 +100,7 @@ int main(int argc, char** argv){
 			}
 
 			//Calcula o output da camada de ativação 
+			#pragma omp parallel for 
 			for(int j = 0; j < numOutputs; j++){
 				double activation = outputLayerBias[j]; 
 				for(int k = 0; k < numHiddenNodes; k++){
@@ -111,6 +113,7 @@ int main(int argc, char** argv){
 			//Inicializando a análise do Backpropagation
 			//Calcula o MSE (Mean Squared Error)
 			double deltaOutput[numOutputs];
+			#pragma omp parallel for 
 			for(int j = 0; j < numOutputs; j++){
 				double dError = (training_outputs[i][j] - outputLayer[j]); 
 				deltaOutput[j] = dError * dSigmoid(outputLayer[j]); 
@@ -118,6 +121,7 @@ int main(int argc, char** argv){
 			
 			//Calcula o MSE para os pesos ocultos
 			double deltaHidden[numHiddenNodes]; 
+			#pragma omp parallel for 
 			for(int j = 0; j < numHiddenNodes; j++){
 				double dError = 0.0f; 
 				for(int k = 0; k < numOutputs; k++){

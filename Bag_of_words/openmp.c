@@ -40,13 +40,9 @@ int main(int argc, char** argv){
 	static const int numHiddenNodes = 4;
 	static const int numOutputs = 1; 
 
-
-	// Set Up The Neural Network
-	// Define the Dimensions of the Hidden Layers
+	// Define a dimensão das layer
 	double hiddenLayer[numHiddenNodes]; 
 	double outputLayer[numOutputs]; 
-
-	// Define the Bias of the Hidden Layers
 	double hiddenLayerBias[numHiddenNodes];
 	double outputLayerBias[numOutputs];
 

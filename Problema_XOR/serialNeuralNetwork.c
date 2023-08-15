@@ -2,16 +2,16 @@
 #include <time.h>
 #include <stdio.h>
 #include <math.h>
+
 #ifndef RAND_MAX
 #define RAND_MAX 32767 
 #endif
-// Goal: Create a C Implementation of a Xor Neural Network
 
-// Activation Function and Its Derivative
+//Função de ativação e sua derivada
 double sigmoid(double x){ return 1 / (1 + exp(-x)); }
 double dSigmoid(double x) { return x * (1 - x); }
 
-// Init all weights and biases between 0 & 1
+//Inicializando todos os pesos e bias aleatoriamente entre 0 e 1
 double init_weight(){ return ((double) rand())/ ((double)RAND_MAX);}
 
 void shuffle(int* array, size_t n){
@@ -27,40 +27,31 @@ void shuffle(int* array, size_t n){
 
 }
 
-// Forward Feed function
-// Back propogate
-// Fit 
-// Update Weights
-// Predict
-// Calcuate MSE
-//
-
 int main(int argc, char** argv){
 	clock_t start_time, end_time;
         double cpu_time_used;
 
-// The number of inputs
 	static const int numInputs = 55; 
 	static const int numHiddenNodes = 4;
 	static const int numOutputs = 1; 
 
 
-	// Set Up The Neural Network
-	// Define the Dimensions of the Hidden Layers
+	//Inicializando a rede neural
+	//Definindo as dimensões das hidden layers
 	double hiddenLayer[numHiddenNodes]; 
 	double outputLayer[numOutputs]; 
 
-	// Define the Bias of the Hidden Layers
+	//Atribuindo os bias das hidden layers
 	double hiddenLayerBias[numHiddenNodes];
 	double outputLayerBias[numOutputs];
 
-	// Define the Hidden Weights
+	//Definindo os pesos ocultos
 	double hiddenWeights[numInputs][numHiddenNodes];
 	double outputWeights[numHiddenNodes][numOutputs];
 
-	// Set up the Training Input / Output 
+	//Inicializando os inputs e outputs do treinamento 
 	static const int numTrainingSets = 68;
-	// Define the Training Inputs
+	//Definindo os inputs do treinamento 
 	double training_inputs[][55] = {
 {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
 {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
@@ -149,27 +140,20 @@ int main(int argc, char** argv){
 	for(int i = 0; i < numOutputs; i++){
 		outputLayerBias[i] = init_weight(); 
 	}
-
 	
 	int trainingSetOrder[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67};
-	// Iterate over a number of epochs and foreach epoch pick one pair of inputs and its expected output 
+	//Iterar sobre um número de épocas, a cada época escolhe um par de entradas e sua saída esperada
 	const double lr = 15.2f; 
 	int epochs = 10000; 
 	for(int n = 0; n < epochs; n++){
-		// As per SGD, shuffle hte order of the training set 	
-		
 		shuffle(trainingSetOrder, numTrainingSets);
-
-		// Cycle through each of hte training set elements
 		for(int x = 0; x < numTrainingSets; x++){
-
-			//
-			// FORWARD FEED IS HERE
-			// Calculate the output of the network given the current weights according ot this formula sigmoid(hiddenLayerBias + Sum(trainingInput_k * hiddenWeight))
+			
+			//Inicializando a analise da FeedFoward
+			//Calcula a saída da rede dados os pesos atuais tal que sigmoid(hiddenLayerBias + Sum(trainingInput_k * hiddenWeight))
 			int i = trainingSetOrder[x]; 
 
-
-			// Compute Hidden Layer Activation
+			//Calcula a ativação da camada de ativação
 			for(int j = 0; j < numHiddenNodes; j++){
 				double activation = hiddenLayerBias[j]; 
 				for(int k = 0; k < numInputs; k++){
@@ -178,8 +162,7 @@ int main(int argc, char** argv){
 				hiddenLayer[j] = sigmoid(activation); 
 			}
 
-			
-			// Compute output layer activation
+			//Calcula o output da camada de ativação
 			for(int j = 0; j < numOutputs; j++){
 				double activation = outputLayerBias[j]; 
 				for(int k = 0; k < numHiddenNodes; k++){
@@ -188,22 +171,16 @@ int main(int argc, char** argv){
 				outputLayer[j] = sigmoid(activation);
 
 			}
-
-
-
-		
 			
-			// Backpropogation begins here
-
-			// Calculate Mean Squared Error In output Weights
+			//Inicializando a análise do Backpropagation
+			//Calcula o MSE (Mean Squared Error)
 			double deltaOutput[numOutputs];
 			for(int j = 0; j < numOutputs; j++){
 				double dError = (training_outputs[i][j] - outputLayer[j]); 
 				deltaOutput[j] = dError * dSigmoid(outputLayer[j]); 
 			}
 			
-
-			// Calcuate Mean Squared Error in Hidden Weights
+			//Calcula o MSE para os pesos ocultos
 			double deltaHidden[numHiddenNodes]; 
 			for(int j = 0; j < numHiddenNodes; j++){
 				double dError = 0.0f; 
@@ -215,7 +192,7 @@ int main(int argc, char** argv){
 
 			}
 
-			// Apply change in output weights
+			//Aplica as mudanças nos pesos dos outputs
 			for(int j = 0; j < numOutputs; j++){
 				outputLayerBias[j] += deltaOutput[j] * lr;	
 				for(int k = 0; k < numHiddenNodes; k++){
@@ -223,7 +200,7 @@ int main(int argc, char** argv){
 				}
 			}
 		
-			// Apply change in hidden weights
+			//Aplica as mudanças nos pesos ocultos
 			for(int j = 0; j < numHiddenNodes; j++){
 				hiddenLayerBias[j] += deltaHidden[j] * lr; 
 				for(int k = 0; k < numInputs; k++){
@@ -231,17 +208,13 @@ int main(int argc, char** argv){
 				
 				}
 			}
-
-			// Backpropogation ends here
-
 		}
 	}
 
-
-	// PREDICT FUNCTION 
+	//Função de predição 
 	double test_input[][2] = { {atof(argv[1]), atof(argv[2])} }; 
 
-	// Compute hidden outer layer activation
+	//Calcula a ativação da camada externa oculta
 	for(int j = 0; j < numHiddenNodes; j++){
 		double activation = hiddenLayerBias[j];
 		for(int k = 0; k < numInputs; k++){
@@ -250,8 +223,7 @@ int main(int argc, char** argv){
 		hiddenLayer[j] = sigmoid(activation);
 	}
 
-
-	// Compute output layer activation
+	//Calcula o output da camada de ativação
 	for(int j = 0; j < numOutputs; j++){
 		double activation = outputLayerBias[j]; 
 		for(int k = 0; k < numHiddenNodes; k++){

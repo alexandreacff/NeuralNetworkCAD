@@ -75,7 +75,7 @@ int main(int argc, char** argv){
 	int trainingSetOrder[] = {0,1,2,3};
 	//Iterar sobre um número de épocas, a cada época escolhe um par de entradas e sua saída esperada
 	const double lr = 15.2f; 
-	int epochs = 1000000; 
+	int epochs = 100000; 
 	for(int n = 0; n < epochs; n++){
 		shuffle(trainingSetOrder, numTrainingSets);
 		for(int x = 0; x < numTrainingSets; x++){

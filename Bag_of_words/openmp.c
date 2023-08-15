@@ -160,6 +160,7 @@ double training_inputs[] = {
 
 
 			// Compute Hidden Layer Activation
+			#pragma omp parallel for 
 			for(int j = 0; j < numHiddenNodes; j++){
 				double activation = hiddenLayerBias[j]; 
 				for(int k = 0; k < numInputs; k++){
@@ -170,6 +171,7 @@ double training_inputs[] = {
 
 			
 			// Compute output layer activation
+			#pragma omp parallel for 
 			for(int j = 0; j < numOutputs; j++){
 				double activation = outputLayerBias[j]; 
 				for(int k = 0; k < numHiddenNodes; k++){
@@ -184,6 +186,7 @@ double training_inputs[] = {
 
 			// Calculate Mean Squared Error In output Weights
 			double deltaOutput[numOutputs];
+			#pragma omp parallel for 
 			for(int j = 0; j < numOutputs; j++){
 				double dError = (training_outputs[i][j] - outputLayer[j]); 
 				deltaOutput[j] = dError * dSigmoid(outputLayer[j]); 

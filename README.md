@@ -1,6 +1,6 @@
 # NeuralNetworkCAD
 
-Implementação de uma Rede Neural em CUDA, OpenMP e serial para comparação do desempenho.
+Implementação de uma Rede Neural em CUDA, OpenMP e de maneira serial para comparação do desempenho.
 
 Integrantes:
 

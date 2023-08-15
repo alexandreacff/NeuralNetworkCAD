@@ -142,24 +142,18 @@ double training_inputs[] = {
 		outputLayerBias[i] = init_weight(); 
 	}
 
-	// Iterate over a number of epochs and foreach epoch pick one pair of inputs and its expected output 
+
 	const double lr = 15.2f; 
 	int epochs = 10000; 
 	for(int n = 0; n < epochs; n++){
-		// As per SGD, shuffle hte order of the training set 	
 		
 		shuffle(trainingSetOrder, numTrainingSets);
 
-		// Cycle through each of hte training set elements
 		for(int x = 0; x < numTrainingSets; x++){
 
-			//
-			// FORWARD FEED IS HERE
-			// Calculate the output of the network given the current weights according ot this formula sigmoid(hiddenLayerBias + Sum(trainingInput_k * hiddenWeight))
 			int i = trainingSetOrder[x]; 
 
 
-			// Compute Hidden Layer Activation
 			#pragma omp parallel for 
 			for(int j = 0; j < numHiddenNodes; j++){
 				double activation = hiddenLayerBias[j]; 
@@ -182,9 +176,6 @@ double training_inputs[] = {
 			}
 
 
-			// Backpropogation begins here
-
-			// Calculate Mean Squared Error In output Weights
 			double deltaOutput[numOutputs];
 			#pragma omp parallel for 
 			for(int j = 0; j < numOutputs; j++){
@@ -193,7 +184,6 @@ double training_inputs[] = {
 			}
 			
 
-			// Calcuate Mean Squared Error in Hidden Weights
 			double deltaHidden[numHiddenNodes]; 
 			for(int j = 0; j < numHiddenNodes; j++){
 				double dError = 0.0f; 
@@ -205,7 +195,6 @@ double training_inputs[] = {
 
 			}
 
-			// Apply change in output weights
 			for(int j = 0; j < numOutputs; j++){
 				outputLayerBias[j] += deltaOutput[j] * lr;	
 				for(int k = 0; k < numHiddenNodes; k++){
@@ -213,7 +202,7 @@ double training_inputs[] = {
 				}
 			}
 		
-			// Apply change in hidden weights
+
 			for(int j = 0; j < numHiddenNodes; j++){
 				hiddenLayerBias[j] += deltaHidden[j] * lr; 
 				for(int k = 0; k < numInputs; k++){
@@ -221,8 +210,6 @@ double training_inputs[] = {
 				
 				}
 			}
-
-			// Backpropogation ends here
 
 		}
 	}	

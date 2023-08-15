@@ -25,10 +25,6 @@ void shuffle(int* array, size_t n){
 
 
 int main(int argc, char** argv){
-	if(argc < 2){
-		printf("add some params");
-		exit(0);
-	}
 
         clock_t start_time, end_time;
         double cpu_time_used;

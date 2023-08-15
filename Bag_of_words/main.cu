@@ -120,7 +120,7 @@ int main(int argc, char** argv){
 	int trainingSetOrder[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67};
 	int numTrainingSets = 68; 
 	
-	// Initialize all the arrays into memory
+	// Inicializa arrays na memória
 	double* hiddenLayer = (double*) malloc(numHiddenNodes * sizeof(double));
 	double* outputLayer = (double*) malloc(numOutputs * sizeof(double));
 
@@ -151,7 +151,7 @@ int main(int argc, char** argv){
 	cudaMalloc((void**)&cuTrainingSetOrder, 68 * sizeof(int));
 	cudaMalloc((void**)&cuOutputWeights, numHiddenNodes * numOutputs *  sizeof(double));
 
-	// Initialize All The Weights
+	// Inicialização dos pesos
 	for(int i = 0; i < numInputs; i++){
 		for(int j = 0; j < numHiddenNodes; j++){
 			hiddenWeights[(i * 2) + j] = init_weight();
@@ -181,9 +181,7 @@ int main(int argc, char** argv){
 	cudaMemcpy(cuOutputWeights, outputWeights, numHiddenNodes * sizeof(double), cudaMemcpyHostToDevice);
 
 
-
-//------------------------------------------------------------------------------
-//do epochs
+//Treino de épocas
 
 	for(int n = 0; n < epochs; n++){
 		

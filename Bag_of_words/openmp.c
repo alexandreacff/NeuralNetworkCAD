@@ -148,7 +148,7 @@ double training_inputs[] = {
 
 	// Iterate over a number of epochs and foreach epoch pick one pair of inputs and its expected output 
 	const double lr = 15.2f; 
-	int epochs = 5000000; 
+	int epochs = 500000; 
 	for(int n = 0; n < epochs; n++){
 		// As per SGD, shuffle hte order of the training set 	
 		

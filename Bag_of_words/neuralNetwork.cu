@@ -30,7 +30,7 @@ __global__ void forwardFeed(double* inputLayer, double* hiddenWeights, double* h
     }
 }
 
-// Training Outputs Checks If Our Values Are Correct
+
 __global__ void backpropagate(double* trainingInputs, double* hiddenLayer, double* hiddenWeights, double* outputLayer, double* outputWeights, double* trainingOutputs, double* hiddenLayerBias, double* outputLayerBias, int numHiddenNodes, int numInputs, int numOutputs, int numTrainingSets, double lr) {
 
     int tid = blockIdx.x * blockDim.x + threadIdx.x;
@@ -47,7 +47,7 @@ __global__ void backpropagate(double* trainingInputs, double* hiddenLayer, doubl
 
 
         double deltaHidden[4];
-        // Calcuate Mean Squared Error in Hidden Weights
+        // Calculo do erro quadrado mínimo
         for(int j = 0; j < numHiddenNodes; j++){
            double dError = 0.0f; 
            for(int k = 0; k < numOutputs; k++){
@@ -56,7 +56,7 @@ __global__ void backpropagate(double* trainingInputs, double* hiddenLayer, doubl
            deltaHidden[j] = dError * dSigmoid(hiddenLayer[j]); 
         }
 
-   	 // Apply Change in Output Weights
+   	 // Aplicar mudança dos pesos
         for(int j = 0; j < numOutputs; j++){
            outputLayerBias[j] += deltaOutput[j] * lr;
            for(int k = 0; k < numHiddenNodes; k++){
@@ -64,7 +64,7 @@ __global__ void backpropagate(double* trainingInputs, double* hiddenLayer, doubl
            }
         }
 
-       // Apply Change in Hidden Weights
+       // Musar hiddenlayers
        for(int j = 0; j < numHiddenNodes; j++){
            hiddenLayerBias[j] += deltaHidden[j] * lr; 
            for(int k = 0; k < numInputs; k++){
